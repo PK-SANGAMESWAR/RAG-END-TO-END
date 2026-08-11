@@ -52,6 +52,58 @@ Give each question to retriever -> suppose it took 72, 82, 89, 99, 100
 precision = 3/5 
 ...For each question and take avg -> Avg precision value
 
+## But this is a bad idea - as you have correct - doc id or chunk id to evaluate
+
+Change in document content can make chnge in id
+So think, we have many chunks -> len(chunks) = 800+, if the man whom we gave task to create golden dataset -> it would be very difficult -> Also improvement or any chnge in hyperaparam of chunking would  chnge the chunks -> have to regenerate chunks in VectorDB and so again make goldens 
+
+If chunking params dont chnge and chunk size dont chnge use the above id trick this is not an issue
+
+## So, creation of golden dataset (question and ideal ans(from vector db))
+
+question                         Ideal ans made by combinied the answers in chunk id               
+what is regression Testing?   
+What is RAG Triad?
+....
+
+
+## How to calculate recall and precision
+
+retiever <- Question (Searches for contexts) = 72, 81,89, 99, 100
+
+LLM as a judge -> give ideal ans and tell it "break into claims"
+
+Go to each claim and tell which of the three claims exist in the context chunk id extracted 
+
+Say we get all the claims in 72, 81,89, 99, 100
+
+So we get recall = 1
+
+## Say you increase chunk size -> no neeed to make chnegs in golden dataset = This is called contextual Recall which uses llm as judge
+
+Precision = question -> retiever - 72, 81, 89, 99,100
+
+LLM as a judge <- Go to each chunk and check if content in chunk answers the question
+
+Precision also considers rank of retrieved chunks
+There may be diff in precision if rank chnges 
+
+But Normal precision treats both as same and give same ans
+
+Use [Contextual Precision]
+
+
+## Retrieval Golden Dataset
+
+1. Hand Authored
+2. LLM assisted drafting and human review
+3. DeepEval synthesizer and Human review
+4. Production log mining
+
+We try to use DeepEval but got bad results
+
+So we proceeded to do with LLM based @retiever_goldens.json
+
 
 
 

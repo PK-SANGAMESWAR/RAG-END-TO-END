@@ -1,0 +1,2 @@
+python src.retriever.py
+python goldens/goldens_generator.py
