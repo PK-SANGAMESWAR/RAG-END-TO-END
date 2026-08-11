@@ -111,5 +111,8 @@ We ll get new baseline
 
 ## Precision -> Implement reranker 
 
+## For more improvement -> use diff embedding model -> May be use large 
 
+## May be decrease k -> try to increase precision 
 
+## May be use a diff reranker as we have used basic reranker
