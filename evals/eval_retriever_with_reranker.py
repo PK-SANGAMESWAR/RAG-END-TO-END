@@ -6,7 +6,8 @@ from deepeval import evaluate
 from deepeval.test_case import LLMTestCase
 from deepeval.metrics import ContextualRecallMetric, ContextualPrecisionMetric
 
-from src.reranker import RerankingRetriever
+from src.reranker import CROSS_ENCODER, RerankingRetriever
+from src.retriever import CHUNK_OVERLAP, CHUNK_SIZE, EMBED_MODEL
 
 load_dotenv()
 
@@ -52,11 +53,13 @@ evaluate(
     test_cases=test_cases,
     metrics=metrics,
     hyperparameters={
-        "retriever": "base_k5",          # vs "reranked" when you swap it in
-        "embedding_model": "text-embedding-3-small",
-        "chunk_size": 1000,
-        "chunk_overlap": 150,
-        "top_k": 5,
+        "retriever": f"reranked_fetch{retriever.fetch_k}_top{retriever.top_k}",
+        "embedding_model": EMBED_MODEL,
+        "chunk_size": CHUNK_SIZE,
+        "chunk_overlap": CHUNK_OVERLAP,
+        "fetch_k": retriever.fetch_k,
+        "top_k": retriever.top_k,
+        "reranker_model": CROSS_ENCODER,
         "judge_model": JUDGE_MODEL,
         "golden_set": GOLDEN_PATH,
     },

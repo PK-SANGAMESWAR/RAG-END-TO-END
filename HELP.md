@@ -15,7 +15,7 @@ Component which gets query and convert into vector using embed model and search 
 
 Load transcripts -> Load and reads line by line and check if there are any time stamps if no add to docs (only txt are used) -> doc objects and we have meta data of which session the transcriptt is told
 
-use an embedding model - text-embedding-3-small
+use an embedding model - started on text-embedding-3-small, now on text-embedding-3-large
 save in chromadb with chunk_size = 1000 and overlap 150 
 
 build retriever and make object 

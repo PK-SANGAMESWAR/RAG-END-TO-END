@@ -1,26 +1,32 @@
-import os, re, glob, json, random
+import glob, json, random
 from dotenv import load_dotenv
 from deepeval.synthesizer import Synthesizer
 from langchain_text_splitters.character import RecursiveCharacterTextSplitter
 
+from src.retriever import CHUNK_OVERLAP, CHUNK_SIZE
+
 load_dotenv()
+
+OUT_PATH = "goldens/retriever_deepeval_goldens.json"
+SEED = 42            # fixed so a re-run samples the same chunks
 
 
 # --- reuse your own VTT cleaning + chunking (same as the retriever) ---
 def load_chunks():
     texts = []
     for path in glob.glob("data/*.vtt"):
-        with open(path) as f:
+        with open(path, encoding="utf-8") as f:
             lines = [ln.strip() for ln in f
                      if ln.strip() and ln.strip() != "WEBVTT" and "-->" not in ln]
         texts.append(" ".join(lines))
-    splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=150)
+    splitter = RecursiveCharacterTextSplitter(chunk_size=CHUNK_SIZE, chunk_overlap=CHUNK_OVERLAP)
     return splitter.split_text("\n\n".join(texts))
 
 
 # --- generate ---
 chunks = load_chunks()
-sample = random.sample(chunks, min(15, len(chunks)))     # ~12 chunks -> keep the set small
+random.seed(SEED)
+sample = random.sample(chunks, min(15, len(chunks)))      # keep the set small
 contexts = [[c] for c in sample]                          # each context = one chunk
 
 synthesizer = Synthesizer(model="gpt-4.1-mini")                # the generator/critic model -- pin it
@@ -41,8 +47,8 @@ for i, g in enumerate(goldens, 1):
         "source": "TODO-verify",        # Synthesizer won't know the session -- you fill this
     })
 
-with open("goldens/retriever_deepeval_goldens.json", "w") as f:
+with open(OUT_PATH, "w", encoding="utf-8") as f:
     json.dump(rows, f, indent=2, ensure_ascii=False)
 
-print(f"wrote {len(rows)} DRAFT goldens -> goldens/component_goldens_draft.json")
+print(f"wrote {len(rows)} DRAFT goldens -> {OUT_PATH}")
 print("!! REVIEW EVERY ONE before using: check grounding, trim padding, fix leading questions.")

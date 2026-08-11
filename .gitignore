@@ -216,3 +216,12 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Local vector store (rebuildable from data/ -- never commit)
+chroma_store/
+
+# DeepEval artifacts
+.deepeval/
+.deepeval-cache.json
+.deepeval_telemetry.txt
+temp_test_run_data.json
