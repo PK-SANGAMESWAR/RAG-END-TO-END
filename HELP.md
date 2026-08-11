@@ -102,7 +102,7 @@ Use [Contextual Precision]
 
 We try to use DeepEval but got bad results
 
-So we proceeded to do with LLM based @retiever_goldens.json
+So we proceeded to do with LLM based @retiever_goldens.json (15 questions)
 
 
 
