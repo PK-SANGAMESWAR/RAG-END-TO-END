@@ -129,3 +129,5 @@ use vector db chunks and export it
 
 exported to json -> then use claude to create dataset step by step one question and one context etc.
 
+## Generator fix - system prompt and chnging the model
+

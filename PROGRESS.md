@@ -126,6 +126,44 @@ setting as the best of what was tried, though without saved per-run scores —
 worth re-running with `hyperparameters=` logging on if precise deltas are
 needed later.
 
+## 8. Generator eval — faithfulness & answer relevancy
+
+A generator component was added on top of the retriever work above:
+[src/generator.py](src/generator.py) (`generate()` / `generate_stream()`,
+`gpt-4o-mini`, temperature 0) with a faithfulness-first prompt — answer only
+from the supplied context, abstain with a fixed refusal string when the
+context doesn't contain the answer, plus guardrails against prompt injection
+from retrieved content, toxic/abusive framing, jailbreak/roleplay overrides,
+and leaking system-prompt or PII details. This is a deliberate exception to
+CLAUDE.md's "no generator in scope" — the task here was explicitly about
+generation quality, not retrieval.
+
+[evals/eval_generator.py](evals/eval_generator.py) scores it in isolation:
+each case is run with the **golden `ideal_context`** from
+`goldens/faithfulness_dataset.json` (15 rows), not the retriever's actual
+output, so a low score can only be the generator's fault, not the
+retriever's. Metrics are `FaithfulnessMetric` + `AnswerRelevancyMetric`,
+threshold 0.7, judge `gpt-4o-mini`.
+
+The prompt in `src/generator.py` went through several revisions — checking
+answer relevancy and faithfulness after each change — before landing on the
+current wording (explicit "cover every part of the question," "don't pad
+with unrelated information," and the strict context-only/abstain rule).
+The run captured in [RAN.md](RAN.md) is the result after that tuning:
+
+| Metric | Average Score | Pass rate |
+|---|:---:|:---:|
+| Faithfulness | 0.96 | 100.0% (15/15) |
+| Answer Relevancy | 0.94 | 93.33% (14/15) |
+
+The one remaining failure is `test_case_3` ("can you give a real-world
+example of an LLM application failing badly?", the Air Canada chatbot
+example): Faithfulness barely passed (0.71 — the answer stayed grounded in
+the context) but Answer Relevancy failed (0.67) because the answer spent
+several sentences on background detail (the legal proceedings, the exact
+refund amount) that wasn't squarely aimed at "give an example of a failure,"
+diluting relevancy even though nothing in it was unsupported.
+
 ## Where things stand / not yet done
 
 - Baseline vs. reranked comparison above is the first locked-in measurement
@@ -134,3 +172,8 @@ needed later.
   2 still-failing precision cases, lowering k to trade recall for precision,
   trying a different embedding model, trying a stronger/different reranker
   (or a higher `fetch_k` before rescoring).
+- Generator eval: only one prompt-revision's numbers were saved (the table
+  in §8); intermediate prompt attempts and their scores weren't logged.
+  `test_case_3`'s relevancy failure suggests a tighter "stay on the exact
+  question asked, don't narrate surrounding detail" instruction is the next
+  thing to try in the prompt.
