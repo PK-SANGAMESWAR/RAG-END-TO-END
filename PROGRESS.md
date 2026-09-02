@@ -218,6 +218,44 @@ No `hyperparameters=` were logged on this run (RAN.md shows the "No
 hyperparameters logged" warning), so it isn't yet comparable against a
 future variant the way §7's runs are.
 
+## 10. Chunk-size sweep against Contextual Relevancy ([evals/sweep_chunk_size.py](evals/sweep_chunk_size.py))
+
+§9's hypothesis was that a 1000-char chunk carries too much off-topic
+transcript alongside the on-topic sentences, so *smaller* `CHUNK_SIZE` should
+raise Contextual Relevancy. Built a sweep script that rebuilds `chroma_store/`
+per combo, reruns the full triad eval (`goldens/faithfulness_dataset.json`,
+15 queries, judge `gpt-4o-mini`) with `hyperparameters=` logged this time, and
+tested three smaller combos against the recorded 1000/150 baseline:
+
+| chunk_size | chunk_overlap | Contextual Relevancy | Faithfulness | Answer Relevancy |
+|---:|---:|:---:|:---:|:---:|
+| 300  | 50  | 0.35  | 0.97  | 0.89  |
+| 500  | 75  | 0.388 | 0.955 | 0.968 |
+| 750  | 100 | 0.399 | 0.974 | 0.916 |
+| **1000 (baseline)** | **150** | **0.44** | **0.95** | **0.86** |
+
+**Hypothesis rejected.** Every smaller chunk size scored *worse* on Contextual
+Relevancy than baseline, and the three swept values move monotonically toward
+the baseline as chunk_size increases (0.35 → 0.388 → 0.399), i.e. the trend
+points up past 1000, not down. Reading the per-test-case reasons from the
+sweep runs, the likely explanation: DeepEval's `ContextualRelevancyMetric`
+breaks each chunk into individual statements and judges each one against the
+question — a smaller chunk doesn't remove the off-topic sentences, it just
+retrieves fewer chunks' worth of them relative to the doubled `k=5` retrieval
+window still needed to hold the answer, so the on-topic:off-topic *ratio*
+inside what gets judged doesn't clearly improve, while shrinking the chunk
+also risks cutting a relevant sentence away from the surrounding context that
+would have anchored it as relevant. `CHUNK_SIZE`/`CHUNK_OVERLAP` in
+`src/retriever.py` were left unchanged at 1000/150 — none of the tested
+alternatives are a win. `chroma_store/` was rebuilt three times during the
+sweep and deleted afterward so it doesn't silently mismatch those constants.
+
+Not yet tried: chunk sizes *larger* than 1000 (the direction the trend
+actually points), and non-chunking fixes for Contextual Relevancy specifically
+— e.g. a post-retrieval sentence/passage extraction step before the generator
+sees the context, since the failure mode is sentence-level noise within an
+already-correctly-ranked chunk, not a ranking or recall problem.
+
 ## Where things stand / not yet done
 
 - Baseline vs. reranked comparison above is the first locked-in measurement
@@ -232,12 +270,12 @@ future variant the way §7's runs are.
   question asked, don't narrate surrounding detail" instruction is the next
   thing to try in the prompt.
 - Full-pipeline triad (§9): Contextual Relevancy failing on 14/15 cases is
-  the biggest open problem in the repo right now. Since it's a sentence-level
-  fault inside otherwise-correctly-ranked chunks, the fixes to try are
-  different from §7's — smaller `CHUNK_SIZE` (less off-topic material per
-  chunk) or sentence/passage-level re-extraction before handing context to
-  the generator, rather than anything about `k` or ranking. Worth re-running
-  with `hyperparameters=` logged so it's comparable to a fix attempt.
+  still the biggest open problem in the repo. §10 ruled out smaller
+  `CHUNK_SIZE` as the fix — it made things worse. Next to try: chunk sizes
+  *larger* than 1000 (the direction §10's trend points), or a
+  sentence/passage-level re-extraction step before handing context to the
+  generator, since the failure is sentence-level noise inside otherwise
+  correctly-ranked chunks, not a `k`/ranking problem.
   Also worth checking whether `test_case_3`'s retrieval miss (no Air Canada
   content surfaced) is a one-off or a pattern — would need looking at what
   the retriever actually returns for that query.

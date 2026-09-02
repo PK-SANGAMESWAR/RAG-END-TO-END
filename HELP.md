@@ -162,3 +162,29 @@ if we have k=5 -> 5 context -> in each context there can be noise and breakdown 
 
 THE NOISE IS INSIDE THE CHUNK [only some help to answer the question some extra lines are there inside]
 
+Single chunk -> more noise
+
+we can chnge chunk size
+
+
+## APPLICATION LEVEL EVALS
+- Correctness - the answer from chatbbot
+- Completeness - if 2 questions are asked in one question
+- Style - explanation style + teaching style
+
+## Count based vs Judgement based metrics
+
+If we are to make a metric for style - the style will be in the answer not in the context
+
+Judgement Metric and 
+
+## EG : CORRECTNESS
+
+golden dataset -> question | correct answer
+
+take llm as judge -> eval wheather ai answer is correct (given question expected ans and actual ans)
+
+compare the act ans with expected ans and decide wheather factually correct and give marks
+
+
+
