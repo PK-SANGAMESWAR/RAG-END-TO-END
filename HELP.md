@@ -205,7 +205,10 @@ Answer should be both correct and faithful.
 golden dataset, question and ideal ans and generated ans
 check if the generated ans is complete and covering all part in comparison to ideal ans
 
+## Style - 
 
+no need of ideal ans
+define rubric that tells about the style followed for answering.
 
 
 
