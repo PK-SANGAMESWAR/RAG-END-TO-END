@@ -146,4 +146,19 @@ Contextual Relevancy - context given by retriver how much it is relevant to answ
 
 We have retiever ->> give question -> generate context -> LLM as judge -> break down the context one by one into claims -> and them one by context -> may be wll get more claims -> take claims individually and the question -> ask llm as judge and check if relvant
 
+Now we got the result as shown in C:\Users\LOQ\Downloads\RAG-END-TO-END\img\Screenshot 2026-09-02 194952.png
+
+We can see that contextual relevancy is problem -> retriver
+But on component level eval we good very good result like 99 and 90 on recall and precision
+
+Then why this => This is because 
+recall 99% -> if there are 100 true context needed for answering -> we are able to get 99 of them.
+Precision 90% -> out of 99 contexts 90 of them answers helps the question
+Contextual relevancy -> the context pulled how much it it relevant to answer the question. [how much related to question.]
+
+ISSUE - TOO MUCH NOISE PER CHUNK
+
+if we have k=5 -> 5 context -> in each context there can be noise and breakdown of context to claims -> may be it can have 5 claims -> out of 5 claims may be 2 is useful so 2/5 
+
+THE NOISE IS INSIDE THE CHUNK [only some help to answer the question some extra lines are there inside]
 

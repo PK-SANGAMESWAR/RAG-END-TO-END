@@ -2,6 +2,7 @@ import json
 from dotenv import load_dotenv
 
 from deepeval import evaluate
+from deepeval.evaluate import CacheConfig
 from deepeval.test_case import LLMTestCase
 from deepeval.metrics import (
     FaithfulnessMetric,
@@ -47,4 +48,12 @@ metrics = [
 
 
 # 4. EVALUATE
-evaluate(test_cases=test_cases, metrics=metrics)
+evaluate(
+    test_cases=test_cases,
+    metrics=metrics,
+    # write_cache=False: deepeval's on-disk test-run cache uses a non-blocking
+    # file lock that's prone to contention under Windows async concurrency,
+    # crashing with `'NoneType' object has no attribute 'test_cases_lookup_map'`.
+    # Caching buys nothing here anyway since goldens/config differ every run.
+    cache_config=CacheConfig(write_cache=False),
+)

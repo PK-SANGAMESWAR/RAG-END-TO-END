@@ -74,11 +74,16 @@ transcripts in [data/](data/).
   Documented in CLAUDE.md's Gotchas section.
 - **DeepEval disk-cache crash on Windows**: `evaluate()`'s on-disk test-run
   cache uses a non-blocking file lock (`portalocker`) that isn't reliable on
-  Windows without the `win32` extra, and was crashing with
-  `'NoneType' object has no attribute 'test_cases_lookup_map'`. Caching also
-  buys nothing here since goldens/config differ every run. Fix: pass
-  `cache_config=CacheConfig(write_cache=False)` to `evaluate()` in both eval
-  scripts.
+  Windows without the `win32` extra. Under async concurrency the lock
+  acquisition can fail entirely, leaving the in-memory cache object `None`
+  and crashing with `'NoneType' object has no attribute
+  'test_cases_lookup_map'` (as opposed to the merely-noisy "Lock acquisition
+  failed" warning it prints the rest of the time). Caching also buys nothing
+  here since goldens/config differ every run. Fix: pass
+  `cache_config=CacheConfig(write_cache=False)` to `evaluate()`. Applied in
+  `eval_retriever.py`, `eval_retriever_with_reranker.py`, and
+  `eval_rag_pipeline.py`; `eval_generator.py` doesn't have it yet and is
+  exposed to the same intermittent crash.
 
 ## 7. Tuning pass — what was tried
 
@@ -164,6 +169,55 @@ several sentences on background detail (the legal proceedings, the exact
 refund amount) that wasn't squarely aimed at "give an example of a failure,"
 diluting relevancy even though nothing in it was unsupported.
 
+## 9. Full pipeline eval — the RAG triad ([src/rag_pipeline.py](src/rag_pipeline.py), [evals/eval_rag_pipeline.py](evals/eval_rag_pipeline.py))
+
+Everything above evaluates the retriever and generator in isolation (the
+retriever evals use a placeholder `actual_output`; §8's generator eval feeds
+it the golden's hand-written `ideal_context` instead of anything actually
+retrieved). This step wires them together for the first time: `RagPipeline`
+runs the reranked retriever, then `generate()` on whatever it comes back
+with, so each test case's `retrieval_context` and `actual_output` are both
+*live* — no golden context anywhere in the loop.
+
+`eval_rag_pipeline.py` reuses the 15 queries from
+`goldens/faithfulness_dataset.json` (same file as §8) and scores with the
+classic RAG triad: `ContextualRelevancyMetric`, `FaithfulnessMetric`,
+`AnswerRelevancyMetric` — threshold 0.7, judge `gpt-4o-mini`. Run captured in
+[RAN.md](RAN.md):
+
+| Metric | Average Score | Pass rate |
+|---|:---:|:---:|
+| Contextual Relevancy | 0.44 | 6.67% (1/15) |
+| Faithfulness | 0.95 | 100.0% (15/15) |
+| Answer Relevancy | 0.86 | 80.0% (12/15) |
+
+Two findings this run surfaced that neither isolated eval could have:
+
+- **Contextual Relevancy almost universally fails, despite the reranker
+  looking fine in §7.** The two metrics aren't measuring the same thing:
+  `ContextualPrecisionMetric` (§7) judges *chunk-level ranking* — are
+  relevant chunks ordered above irrelevant ones. `ContextualRelevancyMetric`
+  judges *sentence-level* — of all statements inside the retrieved chunks,
+  what fraction are actually about the question. A chunk can be the single
+  best-ranked, correctly-on-topic match and still score low here if it's a
+  1000-character slab of conversational transcript where only 2 of 12
+  sentences address the query and the rest wander. That's most chunks in
+  this corpus. Precision-at-ranking and relevancy-at-content are
+  independent failure modes, and only the triad eval catches the second one.
+- **`test_case_3` (the Air Canada chatbot example) flips from a pass in §8
+  to an abstain here.** With the golden's `ideal_context` handed to it
+  directly, the generator answered fine (Faithfulness 0.71, borderline
+  Answer Relevancy 0.67). With the *actual* retriever+reranker output, it
+  answered "I don't have enough information in the course material to
+  answer that." — the real retrieval pipeline never surfaces that content
+  for this query. §8's generator eval couldn't have shown this: it never
+  gave the generator a chance to fail at retrieval, only at reasoning over
+  context it was handed.
+
+No `hyperparameters=` were logged on this run (RAN.md shows the "No
+hyperparameters logged" warning), so it isn't yet comparable against a
+future variant the way §7's runs are.
+
 ## Where things stand / not yet done
 
 - Baseline vs. reranked comparison above is the first locked-in measurement
@@ -177,3 +231,16 @@ diluting relevancy even though nothing in it was unsupported.
   `test_case_3`'s relevancy failure suggests a tighter "stay on the exact
   question asked, don't narrate surrounding detail" instruction is the next
   thing to try in the prompt.
+- Full-pipeline triad (§9): Contextual Relevancy failing on 14/15 cases is
+  the biggest open problem in the repo right now. Since it's a sentence-level
+  fault inside otherwise-correctly-ranked chunks, the fixes to try are
+  different from §7's — smaller `CHUNK_SIZE` (less off-topic material per
+  chunk) or sentence/passage-level re-extraction before handing context to
+  the generator, rather than anything about `k` or ranking. Worth re-running
+  with `hyperparameters=` logged so it's comparable to a fix attempt.
+  Also worth checking whether `test_case_3`'s retrieval miss (no Air Canada
+  content surfaced) is a one-off or a pattern — would need looking at what
+  the retriever actually returns for that query.
+- `eval_generator.py` still lacks the `CacheConfig(write_cache=False)` fix
+  from §6 and can hit the same intermittent crash the other three eval
+  scripts were patched for.
