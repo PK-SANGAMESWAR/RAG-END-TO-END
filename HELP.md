@@ -116,3 +116,16 @@ We ll get new baseline
 ## May be decrease k -> try to increase precision 
 
 ## May be use a diff reranker as we have used basic reranker
+
+## Generator - see edge cases first , can add more unfaithful responses using LLM , failthful means we use info fully from context.
+Can also fail when even if it is faithful to context but not relevant to the question.
+
+so the metrics are Faithfulness, Answer Relevancy, citation acc, completeness, correctness.
+
+use llm as a judge and as we are doing generation test in isolation we generate anserrt and the llm will break into claims and check in golden context and get the faithfulness.
+
+
+use vector db chunks and export it 
+
+exported to json -> then use claude to create dataset step by step one question and one context etc.
+

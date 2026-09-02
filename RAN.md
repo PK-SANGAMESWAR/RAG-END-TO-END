@@ -350,4 +350,226 @@ Loading weights: 100%|███████████████████�
 
 
 
+> G-END-TO-END) PS C:\Users\LOQ\Downloads\RAG-END-TO-END> 
+✨ You're running DeepEval's latest Faithfulness Metric! (using
+gpt-4o-mini, strict=False, async_mode=True)...
+✨ You're running DeepEval's latest Answer Relevancy Metric! 
+(using gpt-4o-mini, strict=False, async_mode=True)...
+Warning: Could not load test run from disk: Shared locks on 
+Windows require the win32 extra (pywin32); msvcrt provides no 
+true shared lock. Install it with: pip install "portalocker"
+In get_cached_test_run, temp=False, Lock acquisition failed: 
+Shared locks on Windows require the win32 extra (pywin32); 
+msvcrt provides no true shared lock. Install it with: pip 
+install "portalocker[win32]"
+In get_cached_test_run, temp=True, Lock acquisition failed: 
+Shared locks on Windows require the win32 extra (pywin32); 
+msvcrt provides no true shared lock. Install it with: pip 
+install "portalocker[win32]"
 
+╭─────────────────────────────────────────────────────────────╮
+│ 🚀 DeepEval Evaluation Results                              │
+╰─────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────╮
+│ ✅ test_case_0 (Passed 2 metrics)                           │
+╰─────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────╮
+│ ✅ test_case_1 (Passed 2 metrics)                           │
+╰─────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────╮
+│ ✅ test_case_2 (Passed 2 metrics)                           │
+╰─────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────╮
+│                                                             │
+│  ❌ test_case_3                                             │
+│  ├──   Input:            can you give a real-world          │
+│  │                       example of an llm application      │
+│  │                       failing badly?                     │
+│  │     Actual Output:    A notable real-world example of    │
+│  │                       a large language model (LLM)       │
+│  │                       application failing can be seen    │
+│  │                       in the case of Air Canada's        │
+│  │                       chatbot. This incident occurred    │
+│  │                       a couple of years ago and          │
+│  │                       involved a customer who was        │
+│  │                       seeking information about          │
+│  │                       bereavement fares, which are       │
+│  │                       discounts offered by airlines      │
+│  │                       for individuals traveling due      │
+│  │                       to the death of a family member    │
+│  │                       or close friend.                   │
+│  │                                                          │
+│  │                       In this situation, the customer    │
+│  │                       interacted with the chatbot on     │
+│  │                       Air Canada's website.              │
+│  │                       Unfortunately, the chatbot         │
+│  │                       provided incorrect information,    │
+│  │                       or what we refer to as             │
+│  │                       "hallucinated" a response.         │
+│  │                       Instead of accurately              │
+│  │                       explaining the bereavement fare    │
+│  │                       policy, it told the customer to    │
+│  │                       book a ticket, pay the full        │
+│  │                       amount upfront, and assured him    │
+│  │                       that he would receive a full       │
+│  │                       refund later.                      │
+│  │                                                          │
+│  │                       After the customer followed        │
+│  │                       this advice and traveled, he       │
+│  │                       attempted to get the refund as     │
+│  │                       promised. However, when he         │
+│  │                       contacted customer support, he     │
+│  │                       was informed that such a refund    │
+│  │                       policy did not exist. Air          │
+│  │                       Canada had a different policy      │
+│  │                       that did not allow for refunds     │
+│  │                       after travel, which left the       │
+│  │                       customer understandably upset.     │
+│  │                                                          │
+│  │                       This led to the customer filing    │
+│  │                       a case against Air Canada. In      │
+│  │                       court, the airline's               │
+│  │                       representatives argued that the    │
+│  │                       chatbot was a separate entity      │
+│  │                       and that the company should not    │
+│  │                       be held responsible for its        │
+│  │                       statements. However, the judge     │
+│  │                       ruled that since the chatbot       │
+│  │                       was part of Air Canada's           │
+│  │                       website, the company was indeed    │
+│  │                       responsible for the information    │
+│  │                       it provided. As a result, Air      │
+│  │                       Canada was ordered to refund       │
+│  │                       the customer approximately         │
+│  │                       $600.                              │
+│  │                                                          │
+│  │                       This case highlights the           │
+│  │                       potential risks and                │
+│  │                       consequences of deploying          │
+│  │                       LLM-based applications without     │
+│  │                       thorough testing and oversight,    │
+│  │                       particularly when they are         │
+│  │                       relied upon for critical           │
+│  │                       customer interactions.             │
+│  └── Metrics                                                │
+│       Status ┃ Metric     ┃ Score ┃ Threshold ┃ Reason      │
+│      ━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━  │
+│        PASS  │ Faithfuln… │ 0.71  │ 0.70      │ The score   │
+│              │            │       │           │ is 0.71     │
+│              │            │       │           │ because     │
+│              │            │       │           │ the         │
+│              │            │       │           │ actual      │
+│              │            │       │           │ output      │
+│              │            │       │           │ con...      │
+│        FAIL  │ Answer     │ 0.67  │ 0.70      │ The score   │
+│              │ Relevancy  │       │           │ is 0.67     │
+│              │            │       │           │ because     │
+│              │            │       │           │ while       │
+│              │            │       │           │ some        │
+│              │            │       │           │ relevant    │
+│              │            │       │           │ points      │
+│              │            │       │           │ were made   │
+│              │            │       │           │ about LLM   │
+│              │            │       │           │ applicat…   │
+│              │            │       │           │ several     │
+│              │            │       │           │ statemen…   │
+│              │            │       │           │ strayed     │
+│              │            │       │           │ into        │
+│              │            │       │           │ backgrou…   │
+│              │            │       │           │ informat…   │
+│              │            │       │           │ and         │
+│              │            │       │           │ unrelated   │
+│              │            │       │           │ topics,     │
+│              │            │       │           │ such as     │
+│              │            │       │           │ airline     │
+│              │            │       │           │ policies    │
+│              │            │       │           │ and legal   │
+│              │            │       │           │ cases,      │
+│              │            │       │           │ which did   │
+│              │            │       │           │ not         │
+│              │            │       │           │ directly    │
+│              │            │       │           │ address     │
+│              │            │       │           │ the         │
+│              │            │       │           │ example     │
+│              │            │       │           │ of          │
+│              │            │       │           │ failure     │
+│              │            │       │           │ requeste…   │
+│                                                             │
+╰─────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────╮
+│ ✅ test_case_4 (Passed 2 metrics)                           │
+╰─────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────╮
+│ ✅ test_case_5 (Passed 2 metrics)                           │
+╰─────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────╮
+│ ✅ test_case_6 (Passed 2 metrics)                           │
+╰─────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────╮
+│ ✅ test_case_7 (Passed 2 metrics)                           │
+╰─────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────╮
+│ ✅ test_case_8 (Passed 2 metrics)                           │
+╰─────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────╮
+│ ✅ test_case_9 (Passed 2 metrics)                           │
+╰─────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────╮
+│ ✅ test_case_10 (Passed 2 metrics)                          │
+╰─────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────╮
+│ ✅ test_case_11 (Passed 2 metrics)                          │
+╰─────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────╮
+│ ✅ test_case_12 (Passed 2 metrics)                          │
+╰─────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────╮
+│ ✅ test_case_13 (Passed 2 metrics)                          │
+╰─────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────╮
+│ ✅ test_case_14 (Passed 2 metrics)                          │
+╰─────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────╮
+│ Aggregate Metrics                                           │
+│                                                             │
+│  Metric          ┃ Average Score ┃ Pass Rate       ┃ Total  │
+│ ━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━ │
+│  Faithfulness    │ 0.96          │ 100.00% |       │ 15     │
+│                  │               │ passed=15 |     │        │
+│                  │               │ failed=0        │        │
+│  Answer          │ 0.94          │ 93.33% |        │ 15     │
+│  Relevancy       │               │ passed=14 |     │        │
+│                  │               │ failed=1        │        │
+╰─────────────────────────────────────────────────────────────╯
+
+Warning: Could not load test run from disk: Shared locks on 
+Windows require the win32 extra (pywin32); msvcrt provides no 
+true shared lock. Install it with: pip install "portalocker"
+Warning: Could not load test run from disk: Shared locks on 
+Windows require the win32 extra (pywin32); msvcrt provides no 
+true shared lock. Install it with: pip install "portalocker"
+
+⚠ WARNING: No hyperparameters logged.
+» Log hyperparameters to attribute prompts and models to your 
+test runs.
+
+===============================================================
+=================
+
+
+✓ Evaluation completed 🎉! (time taken: 43.43s | token cost: 
+0.0189321 USD)
+» Test Results (15 total tests):
+   » Pass Rate: 93.33% | Passed: 14 | Failed: 1
+
+ ==============================================================
+================== 
+
+» Want to share evals with your team, or a place for your test 
+cases to live? ❤️ 🏡
+  » Run 'deepeval view' to analyze and save testing results on 
+Confident AI.
+
+
+[PostHog] analytics lane flush ran out of budget (1.0s granted) with 2 items pending.
+(RAG-END-TO-END) PS C:\Users\LOQ\Downloads\RAG-END-TO-END> 
