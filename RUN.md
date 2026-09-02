@@ -10,3 +10,5 @@ python -m evals.eval_retriever_with_reranker # + cross-encoder reranker
 The first run embeds all 8 transcripts (~697 chunks) and writes `chroma_store/`.
 Later runs reuse it -- delete the folder to force a rebuild after changing
 chunking or the embedding model.
+
+python src/generator.py
