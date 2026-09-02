@@ -131,3 +131,19 @@ exported to json -> then use claude to create dataset step by step one question 
 
 ## Generator fix - system prompt and chnging the model
 
+## EVAL ON RAG PIPELINE - PIPELINE LEVEL
+RAG Triad - question -> retriver -> context
+question + context -> answer 
+
+with question context and answer metrics are
+Answer + context = Faithfulness, AnswerRelevancy, ContextualRelevancy
+
+
+## HOW DIFF IS FAITHDULNESS AND ANSWER RELEVANCY ON PIPELINE AND COMPONENT LEVEL
+the context is diff and comes from retriever and the scores are diff compared to the component level metrics.
+
+Contextual Relevancy - context given by retriver how much it is relevant to answer question
+
+We have retiever ->> give question -> generate context -> LLM as judge -> break down the context one by one into claims -> and them one by context -> may be wll get more claims -> take claims individually and the question -> ask llm as judge and check if relvant
+
+
