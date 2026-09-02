@@ -3,7 +3,7 @@ from deepeval import evaluate
 from deepeval.test_case import LLMTestCase
 from deepeval.metrics import AnswerRelevancyMetric
 
-load_dotenv()
+load_dotenv(override=True)  # .env wins over a stale OS-level OPENAI_API_KEY
 
 # --- Test case 1: a good answer (should PASS) ---
 case_1 = LLMTestCase(

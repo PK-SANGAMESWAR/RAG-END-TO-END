@@ -5,7 +5,7 @@ from langchain_text_splitters.character import RecursiveCharacterTextSplitter
 
 from src.retriever import CHUNK_OVERLAP, CHUNK_SIZE
 
-load_dotenv()
+load_dotenv(override=True)  # .env wins over a stale OS-level OPENAI_API_KEY
 
 OUT_PATH = "goldens/retriever_deepeval_goldens.json"
 SEED = 42            # fixed so a re-run samples the same chunks

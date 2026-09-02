@@ -89,6 +89,13 @@ mislabels every result in the DeepEval dashboard. Never retype a value there.
 
 ## Gotchas
 
+- **`load_dotenv(override=True)` everywhere — keep the flag.** This machine has a
+  stale User-level `OPENAI_API_KEY` that shadows `.env` under dotenv's default
+  `override=False`. Dropping the flag makes every script authenticate with the
+  wrong key and 401 with a key that appears nowhere in the repo.
+- A `401` means the key is wrong (likely shadowing, above); a `429
+  insufficient_quota` means the key is fine and the account is out of credits.
+
 - Running these scripts **costs money and time** (OpenAI embeddings + judge
   calls). Don't run a full eval to check a syntax change.
 - The first reranker run downloads ~80MB of model weights.

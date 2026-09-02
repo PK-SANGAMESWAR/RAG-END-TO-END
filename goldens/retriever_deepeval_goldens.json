@@ -1,0 +1,92 @@
+[
+  {
+    "id": "g001",
+    "query": "Why must chatbot logging run non-blocking to avoid latency while ensuring durable, queryable storage?",
+    "ideal_answer": "Chatbot logging must run non-blocking to ensure that logging operations do not increase the latency of the conversation, allowing the chat to proceed smoothly. At the same time, logging needs to be durable and queryable—stored in tools like data warehouses or observability platforms (e.g., Langsmith)—to reliably retain all user inputs, outputs, and metadata for future analysis.",
+    "source": "TODO-verify"
+  },
+  {
+    "id": "g002",
+    "query": "How do LLMs' variable outputs and correctness criteria complicate their application evaluation?",
+    "ideal_answer": "LLMs produce different but all valid outputs for the same input, making it hard to define a single correct answer. Unlike traditional software where correctness is clear-cut (e.g., 2+2=4), evaluating LLMs involves handling multiple correct responses, complicating assessment and quality control.",
+    "source": "TODO-verify"
+  },
+  {
+    "id": "g003",
+    "query": "How do Model evals guide choosing between proprietary LLMs like Claude and open source ones like DeepSeq?",
+    "ideal_answer": "Model evals provide critical insights into an LLM's safety, hallucination rate, and vulnerability to jailbreaks. By evaluating these factors, you can determine whether a proprietary LLM like Claude, which may offer better performance but at a higher cost, or an open source model like DeepSeq, which might be cheaper but less capable, is more suitable for your needs. Ultimately, model evals help you decide whether to deploy your own model, use existing APIs, or build on open source solutions based on their evaluated strengths and risks.",
+    "source": "TODO-verify"
+  },
+  {
+    "id": "g004",
+    "query": "Does the creation and evaluation of the golden dataset involve human input or purely programmatic execution?",
+    "ideal_answer": "The creation of the golden dataset involves human input, as it is created by humans. However, the evaluation process can be programmatic, depending on when and how it is executed.",
+    "source": "TODO-verify"
+  },
+  {
+    "id": "g005",
+    "query": "If routing complex queries to reasoning models raises latency, how might dynamic load balancing optimize response time?",
+    "ideal_answer": "Dynamic load balancing can optimize response time by routing simpler queries to faster, non-reasoning models while directing only complex queries to slower reasoning models. This approach reduces overall latency by ensuring that the reasoning model handles fewer requests, preventing bottlenecks during peak traffic.",
+    "source": "TODO-verify"
+  },
+  {
+    "id": "g006",
+    "query": "How to create a systematic, repeatable data set covering edge cases for chatbot testing?",
+    "ideal_answer": "To create a systematic, repeatable data set covering edge cases for chatbot testing, first collect real user interactions (e.g., 100 chats) to build a representative database. Ensure the data set includes diverse edge cases to test various scenarios. This approach allows you to evaluate your chatbot consistently across different versions, prompts, or models, maintaining repeatability in testing.",
+    "source": "TODO-verify"
+  },
+  {
+    "id": "g007",
+    "query": "Define systematic criteria-driven assessment protocols for evaluating LLM-based applications’ performance.",
+    "ideal_answer": "Systematic criteria-driven assessment protocols for evaluating LLM-based applications involve defining clear, repeatable criteria aligned with course content and safety standards. These protocols ensure evaluations are structured, consistent, and free from unsafe or abusive content, enabling proper and reliable testing of LLM performance.",
+    "source": "TODO-verify"
+  },
+  {
+    "id": "g008",
+    "query": "How does the LLM as a judge evaluator compare in detecting PII leakage versus prompt or code injection?",
+    "ideal_answer": "The LLM as a judge evaluator uses different specialized models for each detection task: it specifically detects PII leakage by evaluating if personal information is leaked, while separate evaluators handle prompt injection and code injection detection, each tailored to their distinct functions.",
+    "source": "TODO-verify"
+  },
+  {
+    "id": "g009",
+    "query": "Why must multi-turn chatbot evals cover both workflow and entire app-level latency, cost, and timing?",
+    "ideal_answer": "Multi-turn chatbot evals must cover both workflow and entire app-level factors because issues can arise at the workflow level affecting conversation flow, while app-level evaluation captures overall latency, token cost, and response timing. This comprehensive evaluation ensures all potential failure points and performance metrics are addressed.",
+    "source": "TODO-verify"
+  },
+  {
+    "id": "g010",
+    "query": "What if OpenRouter suddenly added 10 new models? How would you optimize multi-model use?",
+    "ideal_answer": "If OpenRouter adds 10 new models, you can optimize multi-model use by leveraging its unified API to seamlessly switch between models based on your specific needs. Prioritize models by task relevance and cost efficiency, use free credits for initial testing, and integrate with LangChain to manage conversations across models effectively, minimizing development overhead and maximizing flexibility.",
+    "source": "TODO-verify"
+  },
+  {
+    "id": "g011",
+    "query": "What is the timeline for releasing the planned LLM Fine Tuning course after current offerings?",
+    "ideal_answer": "The LLM Fine Tuning course is planned after the current courses, with an expected timeline of two to three months once the ongoing courses are completed.",
+    "source": "TODO-verify"
+  },
+  {
+    "id": "g012",
+    "query": "What milestones cover pre-training to fine-tuning in the AI engineering track by November?",
+    "ideal_answer": "By November, the AI engineering track aims to cover milestones including pre-training, data preparation, tokenization, and fine-tuning of large language models, completing the builder side of LLMs within the first 6 months of the next year.",
+    "source": "TODO-verify"
+  },
+  {
+    "id": "g013",
+    "query": "If retriever fetches top 5 docs and generator works, what else might cause app failure?",
+    "ideal_answer": "App failure can still occur if the top 5 retrieved documents do not contain the correct or sufficient information to answer the user's query accurately, leading the generator to produce incorrect or incomplete responses despite both components working properly.",
+    "source": "TODO-verify"
+  },
+  {
+    "id": "g014",
+    "query": "How does regression testing repeatedly run eval suites to verify application stability over time?",
+    "ideal_answer": "Regression testing repeatedly runs eval suites to ensure that new changes do not break existing functionality, thereby verifying the application's stability over time.",
+    "source": "TODO-verify"
+  },
+  {
+    "id": "g015",
+    "query": "Are workshops on voice AI agents this month and multi-agent architectures next month planned?",
+    "ideal_answer": "Yes, a workshop on building voice AI agents is planned for this month, and a workshop on multi-agent architectures is planned for next month.",
+    "source": "TODO-verify"
+  }
+]

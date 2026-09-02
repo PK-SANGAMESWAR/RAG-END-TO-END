@@ -3,13 +3,14 @@ import json
 from dotenv import load_dotenv
 
 from deepeval import evaluate
+from deepeval.evaluate import CacheConfig
 from deepeval.test_case import LLMTestCase
 from deepeval.metrics import ContextualRecallMetric, ContextualPrecisionMetric
 
 from src.reranker import CROSS_ENCODER, RerankingRetriever
 from src.retriever import CHUNK_OVERLAP, CHUNK_SIZE, EMBED_MODEL
 
-load_dotenv()
+load_dotenv(override=True)  # .env wins over a stale OS-level OPENAI_API_KEY
 
 GOLDEN_PATH = "goldens/retriever_goldens.json"
 JUDGE_MODEL = "gpt-4.1-mini"  
@@ -52,6 +53,11 @@ metrics = [
 evaluate(
     test_cases=test_cases,
     metrics=metrics,
+    # write_cache=False: deepeval's on-disk test-run cache uses a non-blocking
+    # file lock that's prone to contention under Windows async concurrency,
+    # crashing with `'NoneType' object has no attribute 'test_cases_lookup_map'`.
+    # Caching buys nothing here anyway since goldens/config differ every run.
+    cache_config=CacheConfig(write_cache=False),
     hyperparameters={
         "retriever": f"reranked_fetch{retriever.fetch_k}_top{retriever.top_k}",
         "embedding_model": EMBED_MODEL,

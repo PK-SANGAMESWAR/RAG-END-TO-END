@@ -8,7 +8,9 @@ from langchain_chroma import Chroma
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document
 
-load_dotenv()  # loads OPENAI_API_KEY from .env
+# override=True: .env wins over any OPENAI_API_KEY already in the OS environment.
+# Without it a stale shell/User-level variable silently shadows this file.
+load_dotenv(override=True)
 
 DATA_DIR = "data"
 DB_DIR = "chroma_store" #vector store
