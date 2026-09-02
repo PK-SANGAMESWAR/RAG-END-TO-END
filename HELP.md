@@ -190,4 +190,15 @@ IF WE WRITE A SYSTEM PROMPT AND TELL LLM TO GIVE RESULT IT CAN INTERPRET EACH QU
 
 USE G-EVAL
 
+## CORRECTNESS - 
+
+Question, ans and correct ans is there with us
+criteria - give the factuality
+llm -> use cot aand break and make judge prompt and then rate and give the weighted probability.
+
+Correctness - check wheather it is correct in real life.
+
+Answer should be both correct and faithful.
+
+
 
