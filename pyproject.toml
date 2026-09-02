@@ -14,6 +14,7 @@ dependencies = [
     "langchain-openai>=1.4.3",
     "langchain-text-splitters>=1.1.2",
     "openai>=2.53.0",
+    "portalocker>=4.1.0",
     "pytest>=9.1.1",
     "python-dotenv>=1.2.2",
     "sentence-transformers>=5.7.0",

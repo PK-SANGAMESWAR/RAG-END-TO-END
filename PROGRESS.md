@@ -263,6 +263,47 @@ Relevancy is better but likely still below the 0.7 threshold on most cases)
 is sentence-level noise within an already-correctly-ranked chunk, not a
 ranking or recall problem chunk size alone can fully solve.
 
+## 11. Application-level eval — GEval correctness / completeness / style ([evals/eval_application.py](evals/eval_application.py))
+
+Everything through §10 scores the pipeline with reference-based DeepEval metrics
+(recall/precision/relevancy/faithfulness). This step adds a different kind of
+judgment on top: three custom `GEval` metrics, each isolating one axis of
+"is this a good answer" that the triad metrics don't directly measure —
+`Correctness` (truth only, judged against `expected_output`, explicitly
+told not to penalize brevity or omissions), `Completeness` (coverage of the
+expected output's key points, explicitly told not to penalize wording),
+and `Style` (reference-free — no `EXPECTED_OUTPUT` param — judging only
+whether the answer reads in an intuitive, conversational CampusX teaching
+voice vs. stiff/formal/jargon-heavy). Each is defined with explicit
+`evaluation_steps` + a `Rubric` score-range table rather than a bare prompt,
+judge `gpt-4o-mini`, threshold 0.7.
+
+Like §9's pipeline eval, this runs `RagPipeline().invoke()` live per query
+(no golden context handed in) — but against a new 15-row golden set,
+[goldens/correctness_goldens.json](goldens/correctness_goldens.json)
+(`{id, question, ideal_answer, source_session}`), separate from
+`faithfulness_dataset.json`. Run captured in [RAN.md](RAN.md):
+
+| Metric | Average Score | Pass rate |
+|---|:---:|:---:|
+| Correctness | 0.91 | 100.0% (15/15) |
+| Completeness | 0.79 | 100.0% (15/15) |
+| Style | 0.73 | 66.67% (10/15) |
+
+**Correctness and completeness are solid; style is the new bottleneck.**
+All 5 failures (`test_case_1`, `2`, `3`, `9`, `14`) fail on Style alone —
+Correctness and Completeness pass 15/15 every time. The judge's reasoning is
+consistent across all 5: the answer is accurate and clear but "leans towards
+a more formal tone and includes some technical jargon without sufficient
+unpacking," reading as informative prose rather than a conversational,
+intuitive teaching explanation. This points at the generator prompt in
+[src/generator.py](src/generator.py) (§8) as the next thing to revise — the
+faithfulness-first, context-only prompt produces correct, complete answers
+that are stylistically closer to a formal summary than the "explain before
+you formalize, plain language, CampusX lecture voice" register the Style
+rubric wants. No `hyperparameters=` were logged on this run, so it isn't
+directly comparable against a future prompt revision the way §7's runs are.
+
 ## Where things stand / not yet done
 
 - Baseline vs. reranked comparison above is the first locked-in measurement
@@ -288,4 +329,10 @@ ranking or recall problem chunk size alone can fully solve.
   the retriever actually returns for that query.
 - `eval_generator.py` still lacks the `CacheConfig(write_cache=False)` fix
   from §6 and can hit the same intermittent crash the other three eval
-  scripts were patched for.
+  scripts were patched for; `eval_application.py` (§11) is missing it too.
+- Application-level eval (§11): Style is now the clearest open failure —
+  correctness and completeness are already strong (100% pass each), so the
+  next prompt-tuning pass on `src/generator.py` should target tone
+  specifically (more conversational, less jargon, explain-before-formalize)
+  without touching the context-only/abstain behavior that's already scoring
+  well on faithfulness (§8, §9).

@@ -1026,3 +1026,280 @@ gpt-4o-mini, strict=False, async_mode=True)...
 
 
 
+
+
+ You're running DeepEval's latest Correctness [GEval] Metric! (using gpt-4o-mini, 
+strict=False, async_mode=True)...
+✨ You're running DeepEval's latest Completeness [GEval] Metric! (using gpt-4o-mini, 
+strict=False, async_mode=True)...
+✨ You're running DeepEval's latest Style [GEval] Metric! (using gpt-4o-mini, strict=False, 
+async_mode=True)...
+Warning: Could not load test run from disk: Shared locks on Windows require the win32 extra 
+(pywin32); msvcrt provides no true shared lock. Install it with: pip install "portalocker"
+In get_cached_test_run, temp=False, Lock acquisition failed: Shared locks on Windows require the win32 extra (pywin32); msvcrt 
+provides no true shared lock. Install it with: pip install "portalocker[win32]"
+In get_cached_test_run, temp=True, Lock acquisition failed: Shared locks on Windows require the win32 extra (pywin32); msvcrt 
+provides no true shared lock. Install it with: pip install "portalocker[win32]"
+
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ 🚀 DeepEval Evaluation Results                                                                                              │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✅ test_case_0 (Passed 3 metrics)                                                                                           │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                             │
+│  ❌ test_case_1                                                                                                             │
+│  ├──   Input:              what's the difference between model evals and application evals?                                 │
+│  │     Actual Output:      The difference between model evals and application evals lies primarily in what they are         │
+│  │                         designed to evaluate. Model evals focus on assessing the capabilities of the language models     │
+│  │                         (LLMs) themselves. This means that when a new LLM is released, model evals are used to           │
+│  │                         benchmark its performance, testing various capabilities such as reasoning, coding, or            │
+│  │                         instruction following. Essentially, model evals are systematic tests that help determine how     │
+│  │                         well an LLM performs on specific tasks, and the results are often documented in terms of         │
+│  │                         accuracy or rankings on benchmarks.                                                              │
+│  │                                                                                                                          │
+│  │                         On the other hand, application evals are concerned with evaluating LLM-based applications,       │
+│  │                         which are systems that incorporate LLMs as one component among many. While the LLM is a          │
+│  │                         crucial part of these applications, there are other elements at play, such as the user           │
+│  │                         interface, the prompts used, any additional tools or APIs integrated, and the overall            │
+│  │                         orchestration of the system. Application evals assess how well the entire application            │
+│  │                         functions, taking into account all these components and how they work together to deliver a      │
+│  │                         seamless user experience.                                                                        │
+│  │                                                                                                                          │
+│  │                         In summary, model evals are about testing the LLM itself, while application evals focus on       │
+│  │                         the performance of applications that utilize LLMs, considering the broader context in which      │
+│  │                         the LLM operates.                                                                                │
+│  │     Expected Output:    Model evals test the capabilities of the raw LLM itself, independent of any product, and         │
+│  │                         include benchmarks as well as custom model evals used to pick a model. Application evals test    │
+│  │                         a system built around one or more LLMs, such as a RAG chatbot or an agent, evaluated             │
+│  │                         end-to-end. In short, model evals judge the model, application evals judge the system you        │
+│  │                         built.                                                                                           │
+│  └── Metrics                                                                                                                │
+│       Status ┃ Metric               ┃ Score ┃ Threshold ┃ Reason                                                            │
+│      ━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  │
+│        PASS  │ Correctness [GEval]  │ 0.86  │ 0.70      │ The response accurately distinguishes between m...                │
+│        PASS  │ Completeness [GEval] │ 0.78  │ 0.70      │ The response effectively distinguishes between ...                │
+│        FAIL  │ Style [GEval]        │ 0.62  │ 0.70      │ The response is understandable and provides a clear distinction   │
+│              │                      │       │           │ between model evals and application evals. However, it leans      │
+│              │                      │       │           │ towards a more formal tone and includes some technical jargon     │
+│              │                      │       │           │ without sufficient unpacking, which detracts from a fully         │
+│              │                      │       │           │ conversational style. While the explanation is coherent, it       │
+│              │                      │       │           │ could benefit from a more engaging and intuitive approach to      │
+│              │                      │       │           │ align better with a teaching voice.                               │
+│                                                                                                                             │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                             │
+│  ❌ test_case_2                                                                                                             │
+│  ├──   Input:              what are the different methods to actually perform an eval?                                      │
+│  │     Actual Output:      In the context of evaluating large language models (LLMs), there are three distinct methods      │
+│  │                         to perform an evaluation. These methods are crucial because they determine how we assess         │
+│  │                         whether an LLM's output is good or not.                                                          │
+│  │                                                                                                                          │
+│  │                         The first method is the **programmatic or deterministic method**. This approach relies on        │
+│  │                         predefined algorithms or scripts to evaluate the output of the LLM. Essentially, it uses a       │
+│  │                         set of rules or criteria to automatically judge the quality of the output without human          │
+│  │                         intervention.                                                                                    │
+│  │                                                                                                                          │
+│  │                         The second method involves **human evaluation**. In this case, actual people assess the LLM's    │
+│  │                         output. Human evaluators can provide nuanced feedback and insights that might be missed by       │
+│  │                         automated systems, making this method valuable for understanding the quality of the output in    │
+│  │                         a more subjective manner.                                                                        │
+│  │                                                                                                                          │
+│  │                         The third method is known as **model graded or LLM graded evaluation**. Here, another LLM is     │
+│  │                         used to evaluate the output of the primary LLM. This method leverages the capabilities of one    │
+│  │                         model to assess the performance of another, which can be particularly useful in scenarios        │
+│  │                         where human evaluation is impractical or when scaling evaluations.                               │
+│  │                                                                                                                          │
+│  │                         These three methods—programmatic, human, and model graded—each have their strengths and can      │
+│  │                         be chosen based on the specific needs of the evaluation process. Understanding these methods     │
+│  │                         is essential for creating an effective evaluation pipeline for LLMs.                             │
+│  │     Expected Output:    There are three broad methods. Programmatic (deterministic) evaluation uses code and fixed       │
+│  │                         rules to check the output, which is cheap and reliable but only works when correctness can be    │
+│  │                         expressed in code. LLM-as-a-judge uses a capable LLM to score outputs, which handles             │
+│  │                         subjective or semantic judgments at scale. Human evaluation uses people to judge outputs,        │
+│  │                         which is the most reliable for nuanced quality but the slowest and most expensive.               │
+│  └── Metrics                                                                                                                │
+│       Status ┃ Metric               ┃ Score ┃ Threshold ┃ Reason                                                            │
+│      ━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  │
+│        PASS  │ Correctness [GEval]  │ 0.96  │ 0.70      │ The actual output accurately describes the thre...                │
+│        PASS  │ Completeness [GEval] │ 0.82  │ 0.70      │ The response effectively covers the three key m...                │
+│        FAIL  │ Style [GEval]        │ 0.63  │ 0.70      │ The response is understandable and provides a clear explanation   │
+│              │                      │       │           │ of the three evaluation methods for LLMs. However, it leans       │
+│              │                      │       │           │ towards a more formal tone and includes some jargon without       │
+│              │                      │       │           │ sufficient unpacking, which detracts from a fully                 │
+│              │                      │       │           │ conversational style. While the structure is logical, it could    │
+│              │                      │       │           │ benefit from a more engaging and intuitive delivery to align      │
+│              │                      │       │           │ better with a teaching voice.                                     │
+│                                                                                                                             │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                             │
+│  ❌ test_case_3                                                                                                             │
+│  ├──   Input:              what does reference-based vs reference-free eval mean?                                           │
+│  │     Actual Output:      Reference-based evaluation and reference-free evaluation are two distinct approaches to          │
+│  │                         assessing the performance of models, particularly in the context of language models.             │
+│  │                                                                                                                          │
+│  │                         Reference-based evaluation is when you have a predefined correct answer or answer key for        │
+│  │                         each test case. This means that for every output generated by the model, you can compare it      │
+│  │                         against this known correct answer to determine how well the model performed. Essentially, you    │
+│  │                         are grading the model's output based on how closely it matches the reference answer. An          │
+│  │                         example of this type of evaluation is when you have a golden dataset that contains the           │
+│  │                         correct answers, allowing you to assess the model's accuracy directly.                           │
+│  │                                                                                                                          │
+│  │                         On the other hand, reference-free evaluation occurs when there is no predefined correct          │
+│  │                         answer available. In this case, the evaluation relies on human judgment or other methods to      │
+│  │                         assess the quality of the model's output. Since there is no answer key to compare against,       │
+│  │                         evaluators must use their discretion, often guided by a rubric, to determine the quality of      │
+│  │                         the responses. This type of evaluation is useful in scenarios where the answers can be           │
+│  │                         subjective or where multiple valid responses might exist.                                        │
+│  │                                                                                                                          │
+│  │                         In summary, the key difference lies in the availability of a correct answer: reference-based     │
+│  │                         evaluation has a known answer for comparison, while reference-free evaluation does not,          │
+│  │                         relying instead on human judgment or alternative methods to assess performance.                  │
+│  │     Expected Output:    A reference-based eval needs a ground-truth answer to compare against, a golden or expected      │
+│  │                         output authored ahead of time, and scores the system by how close it comes to that reference.    │
+│  │                         A reference-free eval needs no ground truth and instead judges an intrinsic property of the      │
+│  │                         output, usually with an LLM as a judge. The test is simply whether the metric requires an        │
+│  │                         expected answer.                                                                                 │
+│  └── Metrics                                                                                                                │
+│       Status ┃ Metric               ┃ Score ┃ Threshold ┃ Reason                                                            │
+│      ━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  │
+│        PASS  │ Correctness [GEval]  │ 0.91  │ 0.70      │ The response accurately describes both referenc...                │
+│        PASS  │ Completeness [GEval] │ 0.78  │ 0.70      │ The response effectively covers the main distin...                │
+│        FAIL  │ Style [GEval]        │ 0.63  │ 0.70      │ The response is understandable and provides a clear explanation   │
+│              │                      │       │           │ of the concepts of reference-based and reference-free             │
+│              │                      │       │           │ evaluation. However, it leans towards a more formal tone and      │
+│              │                      │       │           │ includes some structured elements that detract from a             │
+│              │                      │       │           │ conversational style. While it effectively explains the ideas,    │
+│              │                      │       │           │ it could benefit from a more engaging and intuitive delivery,     │
+│              │                      │       │           │ perhaps by incorporating a relatable analogy or example.          │
+│                                                                                                                             │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✅ test_case_4 (Passed 3 metrics)                                                                                           │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✅ test_case_5 (Passed 3 metrics)                                                                                           │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✅ test_case_6 (Passed 3 metrics)                                                                                           │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✅ test_case_7 (Passed 3 metrics)                                                                                           │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✅ test_case_8 (Passed 3 metrics)                                                                                           │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                             │
+│  ❌ test_case_9                                                                                                             │
+│  ├──   Input:              what is a benchmark and what does MMLU test?                                                     │
+│  │     Actual Output:      A benchmark is essentially a standardized test designed to evaluate the performance of a         │
+│  │                         system, in this case, a language model (LLM). It serves several purposes: it defines what        │
+│  │                         specific task is being measured, provides a dataset with questions and answers, outlines the     │
+│  │                         conditions under which the test will be executed, and specifies how the results will be          │
+│  │                         scored and aggregated. All of these details are typically documented in a research paper         │
+│  │                         associated with the benchmark.                                                                   │
+│  │                                                                                                                          │
+│  │                         Now, when we talk about MMLU, which stands for "Massive Multitask Language Understanding," it    │
+│  │                         is a specific benchmark that tests the breadth of knowledge of an LLM. Launched in September     │
+│  │                         2020, MMLU consists of a dataset that includes around 14,000 multiple-choice questions           │
+│  │                         covering 57 different subjects. The primary goal of MMLU is to assess how much general           │
+│  │                         knowledge an LLM has, rather than how deeply it understands specific topics.                     │
+│  │                                                                                                                          │
+│  │                         To evaluate an LLM using MMLU, the model is presented with these multiple-choice questions,      │
+│  │                         and its performance is measured by how many questions it answers correctly. This accuracy        │
+│  │                         score provides insight into the model's knowledge capabilities. However, it's important to       │
+│  │                         note that MMLU has some limitations, such as the potential for contamination of the dataset      │
+│  │                         due to its public availability, which can lead to newer models performing better simply          │
+│  │                         because they have seen the questions during training.                                            │
+│  │                                                                                                                          │
+│  │                         In summary, a benchmark like MMLU is crucial for systematically evaluating the knowledge of      │
+│  │                         LLMs, helping to understand their capabilities in a structured way.                              │
+│  │     Expected Output:    A benchmark is a standardized model eval: a fixed dataset and scoring procedure used to          │
+│  │                         compare the capabilities of different models on the same footing. MMLU (Massive Multitask        │
+│  │                         Language Understanding) is a multiple-choice benchmark covering many subjects that measures      │
+│  │                         the breadth of a model's knowledge. It does not measure reasoning depth, calibration,            │
+│  │                         open-ended generation, and it is English and exam-style only.                                    │
+│  └── Metrics                                                                                                                │
+│       Status ┃ Metric               ┃ Score ┃ Threshold ┃ Reason                                                            │
+│      ━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  │
+│        PASS  │ Correctness [GEval]  │ 0.86  │ 0.70      │ The response accurately defines a benchmark and...                │
+│        PASS  │ Completeness [GEval] │ 0.72  │ 0.70      │ The response effectively defines a benchmark an...                │
+│        FAIL  │ Style [GEval]        │ 0.54  │ 0.70      │ The response is understandable and provides a clear explanation   │
+│              │                      │       │           │ of benchmarks and MMLU, but it leans towards a more formal tone   │
+│              │                      │       │           │ and includes some jargon without sufficient unpacking. While it   │
+│              │                      │       │           │ is informative, it lacks the conversational style and intuitive   │
+│              │                      │       │           │ explanations that would make it feel more like a teaching         │
+│              │                      │       │           │ lecture.                                                          │
+│                                                                                                                             │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✅ test_case_10 (Passed 3 metrics)                                                                                          │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✅ test_case_11 (Passed 3 metrics)                                                                                          │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✅ test_case_12 (Passed 3 metrics)                                                                                          │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✅ test_case_13 (Passed 3 metrics)                                                                                          │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                             │
+│  ❌ test_case_14                                                                                                            │
+│  ├──   Input:              at how many levels do we evaluate a rag application and what are they?                           │
+│  │     Actual Output:      In evaluating a RAG (Retrieval-Augmented Generation) application, we assess it at three          │
+│  │                         distinct levels. First, we have the **component level**, where we test individual components     │
+│  │                         such as the retriever and generator. This is crucial because any single component can fail,      │
+│  │                         affecting the overall performance of the application.                                            │
+│  │                                                                                                                          │
+│  │                         Next, we move to the **pipeline level**. Here, we evaluate the entire RAG pipeline, which        │
+│  │                         includes the interaction between the components. This is where we apply the RAG triad metrics    │
+│  │                         to ensure that the components work together effectively.                                         │
+│  │                                                                                                                          │
+│  │                         Finally, we reach the **application level**. At this stage, we assess the overall application    │
+│  │                         to ensure it meets specific criteria like correctness and completeness. We also check for        │
+│  │                         safety and operational metrics, which are essential for user experience and reliability.         │
+│  │                                                                                                                          │
+│  │                         By evaluating at these three levels—component, pipeline, and application—we can ensure a         │
+│  │                         comprehensive understanding of the RAG application's performance and identify any potential      │
+│  │                         failure points.                                                                                  │
+│  │     Expected Output:    A RAG application is evaluated at three levels. The component level tests each building block    │
+│  │                         in isolation, the retriever and the generator. The pipeline level tests the retriever and        │
+│  │                         generator connected together, using the RAG triad. The application level tests the full          │
+│  │                         system as the user experiences it, covering quality metrics plus safety and operations.          │
+│  │                         Together these levels form the eval suite you run during regression testing.                     │
+│  └── Metrics                                                                                                                │
+│       Status ┃ Metric               ┃ Score ┃ Threshold ┃ Reason                                                            │
+│      ━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  │
+│        PASS  │ Correctness [GEval]  │ 1.00  │ 0.70      │ The actual output accurately describes the thre...                │
+│        PASS  │ Completeness [GEval] │ 0.89  │ 0.70      │ The response effectively covers all three evalu...                │
+│        FAIL  │ Style [GEval]        │ 0.59  │ 0.70      │ The response is understandable and provides a clear explanation   │
+│              │                      │       │           │ of the three levels of evaluation for a RAG application.          │
+│              │                      │       │           │ However, it leans towards a more formal tone and includes some    │
+│              │                      │       │           │ jargon without unpacking it, which detracts from a fully          │
+│              │                      │       │           │ conversational style. While it is informative, it could benefit   │
+│              │                      │       │           │ from a more intuitive and engaging delivery.                      │
+│                                                                                                                             │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ Aggregate Metrics                                                                                                           │
+│                                                                                                                             │
+│  Metric                            ┃ Average Score          ┃ Pass Rate                                         ┃ Total     │
+│ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━ │
+│  Correctness [GEval]               │ 0.91                   │ 100.00% | passed=15 | failed=0                    │ 15        │
+│  Completeness [GEval]              │ 0.79                   │ 100.00% | passed=15 | failed=0                    │ 15        │
+│  Style [GEval]                     │ 0.73                   │ 66.67% | passed=10 | failed=5                     │ 15        │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+Warning: Could not load test run from disk: Shared locks on Windows require the win32 extra (pywin32); msvcrt provides no true 
+shared lock. Install it with: pip install "portalocker"
+Warning: Could not load test run from disk: Shared locks on Windows require the win32 extra (pywin32); msvcrt provides no true 
+shared lock. Install it with: pip install "portalocker"
+
+⚠ WARNING: No hyperparameters logged.
+» Log hyperparameters to attribute prompts and models to your test runs.
