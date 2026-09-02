@@ -1,3 +1,5 @@
 {"chunk_size": 300, "chunk_overlap": 50, "Contextual Relevancy": 0.35, "Faithfulness": 0.97, "Answer Relevancy": 0.89}
 {"chunk_size": 500, "chunk_overlap": 75, "Contextual Relevancy": 0.388, "Faithfulness": 0.955, "Answer Relevancy": 0.968}
 {"chunk_size": 750, "chunk_overlap": 100, "Contextual Relevancy": 0.399, "Faithfulness": 0.974, "Answer Relevancy": 0.916}
+{"chunk_size": 1250, "chunk_overlap": 185, "Contextual Relevancy": 0.387, "Faithfulness": 0.951, "Answer Relevancy": 0.865}
+{"chunk_size": 1500, "chunk_overlap": 225, "Contextual Relevancy": 0.511, "Faithfulness": 0.957, "Answer Relevancy": 0.898}

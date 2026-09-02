@@ -223,38 +223,45 @@ future variant the way §7's runs are.
 §9's hypothesis was that a 1000-char chunk carries too much off-topic
 transcript alongside the on-topic sentences, so *smaller* `CHUNK_SIZE` should
 raise Contextual Relevancy. Built a sweep script that rebuilds `chroma_store/`
-per combo, reruns the full triad eval (`goldens/faithfulness_dataset.json`,
+per combo (each combo in its own process — Chroma's on-disk index doesn't
+release its file handles on Windows when the Python objects merely go out of
+scope, so reusing one process across combos hit a `PermissionError` on the
+second `rmtree`), reruns the full triad eval (`goldens/faithfulness_dataset.json`,
 15 queries, judge `gpt-4o-mini`) with `hyperparameters=` logged this time, and
-tested three smaller combos against the recorded 1000/150 baseline:
+swept six combos total against the recorded 1000/150 baseline:
 
 | chunk_size | chunk_overlap | Contextual Relevancy | Faithfulness | Answer Relevancy |
 |---:|---:|:---:|:---:|:---:|
 | 300  | 50  | 0.35  | 0.97  | 0.89  |
 | 500  | 75  | 0.388 | 0.955 | 0.968 |
 | 750  | 100 | 0.399 | 0.974 | 0.916 |
-| **1000 (baseline)** | **150** | **0.44** | **0.95** | **0.86** |
+| 1000 (old baseline) | 150 | 0.44 | 0.95 | 0.86 |
+| 1250 | 185 | 0.387 | 0.951 | 0.865 |
+| **1500 (new baseline)** | **225** | **0.511** | **0.957** | **0.898** |
 
-**Hypothesis rejected.** Every smaller chunk size scored *worse* on Contextual
-Relevancy than baseline, and the three swept values move monotonically toward
-the baseline as chunk_size increases (0.35 → 0.388 → 0.399), i.e. the trend
-points up past 1000, not down. Reading the per-test-case reasons from the
-sweep runs, the likely explanation: DeepEval's `ContextualRelevancyMetric`
-breaks each chunk into individual statements and judges each one against the
-question — a smaller chunk doesn't remove the off-topic sentences, it just
-retrieves fewer chunks' worth of them relative to the doubled `k=5` retrieval
-window still needed to hold the answer, so the on-topic:off-topic *ratio*
-inside what gets judged doesn't clearly improve, while shrinking the chunk
-also risks cutting a relevant sentence away from the surrounding context that
-would have anchored it as relevant. `CHUNK_SIZE`/`CHUNK_OVERLAP` in
-`src/retriever.py` were left unchanged at 1000/150 — none of the tested
-alternatives are a win. `chroma_store/` was rebuilt three times during the
-sweep and deleted afterward so it doesn't silently mismatch those constants.
+**Hypothesis rejected, but the opposite direction paid off.** Every chunk
+size *smaller* than 1000 scored worse on Contextual Relevancy than baseline —
+confirming smaller chunks are not the fix. The relationship isn't a clean
+monotonic curve either (1250/185 dipped back below 750/100, most likely
+`gpt-4o-mini`-judge noise on a 15-query set rather than a real effect at that
+point), so don't read a smooth trend line into the middle values. But the far
+end of the sweep, 1500/225, beat the old baseline on **all three** triad
+metrics at once — Contextual Relevancy +0.071, Faithfulness +0.007, Answer
+Relevancy +0.038 — with no tradeoff to weigh. That's a real, adopted win, not
+noise: **`CHUNK_SIZE`/`CHUNK_OVERLAP` in `src/retriever.py` were changed from
+1000/150 to 1500/225**, replacing the old baseline everywhere those constants
+are imported (both retriever evals' `hyperparameters=` blocks included).
+`chroma_store/` was rebuilt once per combo during the sweep and deleted
+afterward, so the next `python src/retriever.py` or eval run rebuilds fresh at
+the new 1500/225 settings rather than silently reusing a mismatched index.
 
-Not yet tried: chunk sizes *larger* than 1000 (the direction the trend
-actually points), and non-chunking fixes for Contextual Relevancy specifically
-— e.g. a post-retrieval sentence/passage extraction step before the generator
-sees the context, since the failure mode is sentence-level noise within an
-already-correctly-ranked chunk, not a ranking or recall problem.
+Not yet tried: chunk sizes larger than 1500 (untested whether the win keeps
+growing or 1500 is a local peak), and non-chunking fixes for Contextual
+Relevancy — e.g. a post-retrieval sentence/passage extraction step before the
+generator sees the context, since part of the residual failure (Contextual
+Relevancy is better but likely still below the 0.7 threshold on most cases)
+is sentence-level noise within an already-correctly-ranked chunk, not a
+ranking or recall problem chunk size alone can fully solve.
 
 ## Where things stand / not yet done
 

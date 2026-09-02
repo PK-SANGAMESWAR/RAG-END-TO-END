@@ -18,8 +18,8 @@ DB_DIR = "chroma_store" #vector store
 # Single source of truth for the retrieval hyperparameters. The eval scripts
 # import these so the logged run config can never drift from what actually ran.
 EMBED_MODEL = "text-embedding-3-large"
-CHUNK_SIZE = 1000
-CHUNK_OVERLAP = 150
+CHUNK_SIZE = 1500
+CHUNK_OVERLAP = 225
 TOP_K = 5
 
 
