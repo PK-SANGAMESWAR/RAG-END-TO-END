@@ -186,5 +186,8 @@ take llm as judge -> eval wheather ai answer is correct (given question expected
 
 compare the act ans with expected ans and decide wheather factually correct and give marks
 
+IF WE WRITE A SYSTEM PROMPT AND TELL LLM TO GIVE RESULT IT CAN INTERPRET EACH QUESTION SEPERATELY AND VARIABILITY INCREASES
+
+USE G-EVAL
 
 
