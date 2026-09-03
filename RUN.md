@@ -20,3 +20,5 @@ python src/generator.py
 .\.venv\Scripts\python.exe -m evals.eval_toxicity
 
 .\.venv\Scripts\python.exe -m evals.eval_latency
+
+.\.venv\Scripts\python.exe -m evals.eval_cost

@@ -36,3 +36,28 @@ Considerations :
 - Analyze retriever more
 - Caching
 - Optimize infra distance
+
+Embedding Cache
+Retrieval cache
+Reranking cache
+System prompt cache
+
+
+## Cost
+
+monetory expense incurred to process a user query, driven primarily by LLM tokens consumed during generation.
+
+Considerations : 
+- Measure cost per query
+- Measure input and output cost seperately
+- Measure cost as a distribution
+- Segment cost by query type
+- Set a cost budget
+
+How to reduce cost ?
+- Reduce retrieved context size
+- Use smaller chunk or contextual compression
+- Reduce unnecessary prompt tokens
+- Reduce o/p length
+- use cheaper model
+- Use caching
