@@ -12,3 +12,9 @@ Later runs reuse it -- delete the folder to force a rebuild after changing
 chunking or the embedding model.
 
 python src/generator.py
+
+.\.venv\Scripts\python.exe -m evals.eval_scope_safety
+
+.\.venv\Scripts\python.exe -m evals.eval_leakage
+
+.\.venv\Scripts\python.exe -m evals.eval_toxicity
