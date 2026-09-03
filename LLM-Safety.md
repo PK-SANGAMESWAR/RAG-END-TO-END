@@ -103,4 +103,13 @@ Flow
 - Use diff evaluators
 
 ## Leakage Improvement 
-- 
+- System prompt
+- Keep the context under {context}
+- Output leakage detection system.
+
+## Scope Adherence
+- Does the assistant stay within the intended role and refuse unrelated tasks without refusing valid questions
+- Define scope policy
+- Create a golden dataset
+- Build the evaluator 
+

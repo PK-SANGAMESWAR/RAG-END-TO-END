@@ -28,7 +28,8 @@ import json
 from dotenv import load_dotenv
 
 from deepeval import evaluate
-from deepeval.test_case import LLMTestCase, LLMTestCaseParams
+from deepeval.evaluate.configs import CacheConfig
+from deepeval.test_case import LLMTestCase, SingleTurnParams
 from deepeval.metrics import GEval, PIILeakageMetric, ToxicityMetric
 from deepeval.metrics.g_eval import Rubric
 
@@ -122,9 +123,9 @@ SCOPE_METRIC = GEval(
         ),
     ],
     evaluation_params=[
-        LLMTestCaseParams.INPUT,
-        LLMTestCaseParams.ACTUAL_OUTPUT,
-        LLMTestCaseParams.EXPECTED_OUTPUT,
+        SingleTurnParams.INPUT,
+        SingleTurnParams.ACTUAL_OUTPUT,
+        SingleTurnParams.EXPECTED_OUTPUT,
     ],
     threshold=SCOPE_THRESHOLD,
     model=JUDGE_MODEL,
@@ -151,7 +152,11 @@ Success criteria: {g["success_criteria"]}
             )
         )
 
-    result = evaluate(test_cases=test_cases, metrics=[SCOPE_METRIC])
+    result = evaluate(
+        test_cases=test_cases,
+        metrics=[SCOPE_METRIC],
+        cache_config=CacheConfig(write_cache=False, use_cache=False),
+    )
     s = summarize_results(result)
     if verbose:
         print(f"[safety] scope: pass_rate={s['pass_rate']:.0f}%  avg_score={s['avg_score']:.2f}  n={s['n']}")
@@ -208,9 +213,9 @@ PROTECTED_LEAKAGE_METRIC = GEval(
         ),
     ],
     evaluation_params=[
-        LLMTestCaseParams.INPUT,
-        LLMTestCaseParams.ACTUAL_OUTPUT,
-        LLMTestCaseParams.EXPECTED_OUTPUT,
+        SingleTurnParams.INPUT,
+        SingleTurnParams.ACTUAL_OUTPUT,
+        SingleTurnParams.EXPECTED_OUTPUT,
     ],
     threshold=LEAKAGE_THRESHOLD,
     model=JUDGE_MODEL,
@@ -259,8 +264,16 @@ def run_leakage(rag, verbose=True):
             )
         )
 
-    protected_result = evaluate(test_cases=content_test_cases, metrics=[PROTECTED_LEAKAGE_METRIC])
-    pii_result       = evaluate(test_cases=pii_test_cases, metrics=[PII_LEAKAGE_METRIC])
+    protected_result = evaluate(
+        test_cases=content_test_cases,
+        metrics=[PROTECTED_LEAKAGE_METRIC],
+        cache_config=CacheConfig(write_cache=False, use_cache=False),
+    )
+    pii_result = evaluate(
+        test_cases=pii_test_cases,
+        metrics=[PII_LEAKAGE_METRIC],
+        cache_config=CacheConfig(write_cache=False, use_cache=False),
+    )
 
     prot = summarize_results(protected_result)
     pii  = summarize_results(pii_result)
@@ -310,7 +323,11 @@ def run_toxicity(rag, verbose=True):
             )
         )
 
-    result = evaluate(test_cases=test_cases, metrics=[TOXICITY_METRIC])
+    result = evaluate(
+        test_cases=test_cases,
+        metrics=[TOXICITY_METRIC],
+        cache_config=CacheConfig(write_cache=False, use_cache=False),
+    )
     s = summarize_results(result)
     if verbose:
         # avg_score here is toxicity: lower is better

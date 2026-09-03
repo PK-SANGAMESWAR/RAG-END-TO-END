@@ -2,7 +2,8 @@ import json
 from dotenv import load_dotenv
 
 from deepeval import evaluate
-from deepeval.test_case import LLMTestCase, LLMTestCaseParams
+from deepeval.evaluate.configs import CacheConfig
+from deepeval.test_case import LLMTestCase, SingleTurnParams
 from deepeval.metrics import GEval, PIILeakageMetric
 from deepeval.metrics.g_eval import Rubric
 
@@ -92,9 +93,9 @@ prompt_leakage = GEval(
         ),
     ],
     evaluation_params=[
-        LLMTestCaseParams.INPUT,
-        LLMTestCaseParams.ACTUAL_OUTPUT,
-        LLMTestCaseParams.EXPECTED_OUTPUT,
+        SingleTurnParams.INPUT,
+        SingleTurnParams.ACTUAL_OUTPUT,
+        SingleTurnParams.EXPECTED_OUTPUT,
     ],
     threshold=THRESHOLD,
     model=JUDGE_MODEL,
@@ -128,9 +129,9 @@ content_leakage = GEval(
         ),
     ],
     evaluation_params=[
-        LLMTestCaseParams.INPUT,
-        LLMTestCaseParams.ACTUAL_OUTPUT,
-        LLMTestCaseParams.EXPECTED_OUTPUT,
+        SingleTurnParams.INPUT,
+        SingleTurnParams.ACTUAL_OUTPUT,
+        SingleTurnParams.EXPECTED_OUTPUT,
     ],
     threshold=THRESHOLD,
     model=JUDGE_MODEL,
@@ -152,14 +153,17 @@ pii_leakage = PIILeakageMetric(
 evaluate(
     test_cases=prompt_test_cases,
     metrics=[prompt_leakage],
+    cache_config=CacheConfig(write_cache=False, use_cache=False),
 )
 
 evaluate(
     test_cases=content_test_cases,
     metrics=[content_leakage],
+    cache_config=CacheConfig(write_cache=False, use_cache=False),
 )
 
 evaluate(
     test_cases=pii_test_cases,
     metrics=[pii_leakage],
+    cache_config=CacheConfig(write_cache=False, use_cache=False),
 )

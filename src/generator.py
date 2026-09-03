@@ -22,7 +22,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from dotenv import load_dotenv
 
-load_dotenv(override=True)  # .env wins over a stale OS-level OPENAI_API_KEY
+load_dotenv()
 
 llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
 
