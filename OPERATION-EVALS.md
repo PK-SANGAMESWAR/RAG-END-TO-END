@@ -61,3 +61,19 @@ How to reduce cost ?
 - Reduce o/p length
 - use cheaper model
 - Use caching
+
+
+## Reliability
+- Ability of RAG system to successfully serve without errors, timeouts, crashes etc
+
+- Error rate
+- Timeout rate
+- Retry rate
+
+Considerations
+- Measure overall success and failure rate
+- Categorize failure instead of using generic error rate
+- Measure reliability under load seperately. A pipeline may be highly reliable in a single user offline test and fail when cuncurrency rises
+- Use enough samples.
+- Use representative requests. Include diff type of queries.
+
