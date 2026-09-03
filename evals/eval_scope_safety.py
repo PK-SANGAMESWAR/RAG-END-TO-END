@@ -2,7 +2,8 @@ import json
 from dotenv import load_dotenv
 
 from deepeval import evaluate
-from deepeval.test_case import LLMTestCase, LLMTestCaseParams
+from deepeval.evaluate.configs import CacheConfig
+from deepeval.test_case import LLMTestCase, SingleTurnParams
 from deepeval.metrics import GEval
 from deepeval.metrics.g_eval import Rubric
 
@@ -70,9 +71,9 @@ scope = GEval(
     ],
 
     evaluation_params=[
-        LLMTestCaseParams.INPUT,
-        LLMTestCaseParams.ACTUAL_OUTPUT,
-        LLMTestCaseParams.EXPECTED_OUTPUT,
+        SingleTurnParams.INPUT,
+        SingleTurnParams.ACTUAL_OUTPUT,
+        SingleTurnParams.EXPECTED_OUTPUT,
     ],
 
     threshold=THRESHOLD,
@@ -82,4 +83,9 @@ scope = GEval(
 
 
 # 4. EVALUATE
-evaluate(test_cases=test_cases, metrics=[scope])
+evaluate(
+    test_cases=test_cases,
+    metrics=[scope],
+    # Avoid DeepEval's local-cache lock failure on Windows.
+    cache_config=CacheConfig(write_cache=False, use_cache=False),
+)
