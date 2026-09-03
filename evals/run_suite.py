@@ -41,7 +41,7 @@ from evals import (
 )
 from evals.metric_registry import rule_for
 
-load_dotenv()
+load_dotenv(override=True)
 
 
 # ============================================================

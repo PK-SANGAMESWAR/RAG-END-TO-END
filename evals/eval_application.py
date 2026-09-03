@@ -2,6 +2,7 @@
 from dotenv import load_dotenv
 
 from deepeval import evaluate
+from deepeval.evaluate import CacheConfig
 from deepeval.test_case import LLMTestCase, LLMTestCaseParams
 from deepeval.metrics import GEval
 from deepeval.metrics.g_eval import Rubric
@@ -101,7 +102,11 @@ def run(rag):
     )
 
     # 4. EVALUATE --- all three together
-    result = evaluate(test_cases=test_cases, metrics=[correctness, completeness, style])
+    result = evaluate(
+        test_cases=test_cases,
+        metrics=[correctness, completeness, style],
+        cache_config=CacheConfig(write_cache=False),
+    )
     return summarize_by_metric(result)
 
 

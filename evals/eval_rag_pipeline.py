@@ -2,6 +2,7 @@
 from dotenv import load_dotenv
 
 from deepeval import evaluate
+from deepeval.evaluate import CacheConfig
 from deepeval.test_case import LLMTestCase
 from deepeval.metrics import (
     FaithfulnessMetric,
@@ -44,7 +45,11 @@ def run(rag):
     ]
 
     # 4. EVALUATE
-    result = evaluate(test_cases=test_cases, metrics=metrics)
+    result = evaluate(
+        test_cases=test_cases,
+        metrics=metrics,
+        cache_config=CacheConfig(write_cache=False),
+    )
     return summarize_by_metric(result)
 
 

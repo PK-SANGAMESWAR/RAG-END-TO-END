@@ -16,6 +16,7 @@ is purely the generator's fault --- the context was already correct.
 from dotenv import load_dotenv
 
 from deepeval import evaluate
+from deepeval.evaluate import CacheConfig
 from deepeval.test_case import LLMTestCase
 from deepeval.metrics import FaithfulnessMetric, AnswerRelevancyMetric
 
@@ -63,7 +64,11 @@ def run():
     ]
 
     # 4. EVALUATE --- runs the metrics on every case, prints a report
-    result = evaluate(test_cases=test_cases, metrics=metrics)
+    result = evaluate(
+        test_cases=test_cases,
+        metrics=metrics,
+        cache_config=CacheConfig(write_cache=False),
+    )
     return summarize_by_metric(result)
 
 
